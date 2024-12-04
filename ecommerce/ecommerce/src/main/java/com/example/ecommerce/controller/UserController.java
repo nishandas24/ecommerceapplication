@@ -3,8 +3,6 @@ package com.example.ecommerce.controller;
 import com.example.ecommerce.dto.UserDto;
 import com.example.ecommerce.reponse.Response;
 import com.example.ecommerce.service.UserService;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;

@@ -4,7 +4,7 @@ import com.example.ecommerce.dto.UserDto;
 import com.example.ecommerce.model.UserMaster;
 import com.example.ecommerce.reponse.Response;
 import com.example.ecommerce.repository.RoleJpaRepository;
-import com.example.ecommerce.repository.UserJpaRepository;
+import com.example.ecommerce.repository.UserRepository;
 import com.example.ecommerce.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService {
     boolean isCreated = directory.mkdirs();
     private String file_path = directory.getPath();
 
-    private final UserJpaRepository userJpaRepository;
+    private final UserRepository userRepository;
     private final RoleJpaRepository roleJpaRepository;
     private final JavaMailSender javaMailSender;
 
@@ -51,7 +51,7 @@ public class UserServiceImpl implements UserService {
             UserMaster userMaster=new UserMaster();
             String extension= FilenameUtils.getExtension(request.getProfileImage().getOriginalFilename());
 
-            if (Boolean.TRUE.equals(userJpaRepository.existsByEmail(request.getEmail()))){
+            if (Boolean.TRUE.equals(userRepository.existsByEmail(request.getEmail()))){
                 response.setStatus(0);
                 response.setStatusCode(new ResponseEntity<>(HttpStatus.OK));
                 response.setMessage("User name is not unique");
@@ -59,7 +59,7 @@ public class UserServiceImpl implements UserService {
                 return response;
             }
 
-            if (Boolean.TRUE.equals(userJpaRepository.existsByPhoneNumber(request.getPhoneNumber()))) {
+            if (Boolean.TRUE.equals(userRepository.existsByPhoneNumber(request.getPhoneNumber()))) {
                 response.setStatus(0);
                 response.setStatusCode(new ResponseEntity<>(HttpStatus.OK));
                 response.setMessage("phone number is not unique");
@@ -93,7 +93,7 @@ public class UserServiceImpl implements UserService {
             simpleMailMessage.setTo(request.getEmail());
             javaMailSender.send(simpleMailMessage);
 
-            userJpaRepository.save(userMaster);
+            userRepository.save(userMaster);
             response.setStatus(0);
             response.setStatusCode(new ResponseEntity<>(HttpStatus.OK));
             response.setMessage("phone number is not valid");
